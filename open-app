@@ -1,0 +1,13 @@
+#!/bin/bash
+
+[ -s "$HOME/.app-list" ] && source ~/.app-list || exit 1
+
+for app in ${!app@}; do
+	if [[ $link == *${app[link]}* ]]; then
+		$CHROMIUM_BROWSER \
+			--app-id=${app[id]} \
+			--app-launch-url-for-shortcuts-menu-item=$link
+		exit 0
+	fi
+done
+exit 1

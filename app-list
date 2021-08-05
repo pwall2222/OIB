@@ -1,0 +1,14 @@
+#!/bin/bash
+declare -A app0=(
+	[link]='www.example.com'
+	[id]=''
+)
+declare -A app1=(
+	[link]='www.linux.com'
+	[id]=''
+)
+
+link=$1
+link=${link//"http:"/"https:"}
+
+declare -n app

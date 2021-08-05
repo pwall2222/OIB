@@ -1,0 +1,27 @@
+#!/bin/bash
+
+export DOMAIN_LIST_FILE="$HOME/.domainrc"
+export MAIN_BROWSER=""
+export OTHER_BROWSER=""
+export CHROMIUM_BROWSER=""
+export LINK="$1"
+
+getOption() {
+	while read domain; do
+		if echo "$LINK" | pcregrep -q "^https?://${domain}"; then
+			echo 1
+			return
+		fi
+	done <"$DOMAIN_LIST_FILE"
+	echo 0
+}
+
+if [ $(getOption) -eq 1 ]; then
+	open-app "$LINK"
+	if [ $? -eq 1 ]; then
+		"$OTHER_BROWSER" $BROWSER_OPTIONS ${*}
+	fi
+	exit 0
+fi
+
+$MAIN_BROWSER ${*}
